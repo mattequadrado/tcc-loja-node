@@ -3,13 +3,11 @@ body {
   margin: 0px;
   padding: 0px;
   font-family: 'Poppins', sans-serif;
-  background-color: rgb(240, 229, 231);
+  background-color: white;
   color: #333;
   box-sizing: border-box;
-  
-
-
 }
+  
 h1, h2 {
   font-family: 'Playfair Display', serif;
 }
@@ -22,17 +20,41 @@ text-decoration: none;
 
 header {
   display: flex;
-  justify-content: space-between;
-  padding: 15px 15px;
-  
+  align-items: center;
+  padding: 15px;
+  background: #630000;
 }
 
-.logotipo {
+.logotipo{
+  flex: 1;
+}
+
+.logotipo img {
+  max-width: 170px;
+  height: auto;
+  display: block;
+}
+
+/* esse era o css da logo escrita (nao png)
+
+  .logotipo {
   font-size: 35px;
   font-weight: bold;
   color: rgb(228, 45, 45);
   font-family: 'Playfair Display', serif;
 
+} */
+
+.nav-p{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-s{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .nav-links {
@@ -50,16 +72,15 @@ header {
 
 .icon {
  border-radius: 5px;
-  padding: 7px 10px;
+  padding: 7px;
 margin-right: 20px;
 }
 
 
 .icon:hover {
-background-color: #fff;
-transition: 0.2s;
-cursor: pointer;
-
+  background-color: #c39738;
+  transition: 0.2s;
+  cursor: pointer;
 }
 
 @media (max-width:800px) {
@@ -72,15 +93,14 @@ cursor: pointer;
 
 }
 
-
-
-
-
+.nav-links a{
+  color: white;
+}
 
 .conteudo_principal {
   text-align: center;
   padding: 70px 20px;
-  background-color: rgb(233, 218, 220);
+  background-color: #edebdd;
 }
 
 .conteudo_principal h1 {
@@ -121,8 +141,12 @@ cursor: pointer;
 }
 
 .secundario {
-  background: white;
-  border: 1px solid #ccc;
+  background-color: #c0392b;
+  border: none;
+}
+
+.secundario a{
+  color: white;
 }
 
 .principal:hover {
@@ -130,12 +154,13 @@ cursor: pointer;
 }
 
 .secundario:hover {
-  scale: 1.02;
+  background-color: #d8584a;
 }
 
 .secao {
   text-align: center;
   padding: 50px 20px;
+  background-color: white;
 }
 
 .secao h2 {
@@ -151,7 +176,7 @@ cursor: pointer;
 }
 
 .card {
-  background: #fff;
+  background: white;
   padding: 25px;
   border-radius: 12px;
   width: 370px;
@@ -179,18 +204,16 @@ cursor: pointer;
   border-color: #ecb8b8;
   color: #e68383;
 }
+
 .card1 i {
   background-color: #eea2a2;
-  padding: 15px 17px;
+  padding: 15px;
   border-radius: 50%;
 }
-
-
 
 .card1:hover {
   border-color: #c44040;
 }
-
 
 .card2 {
   border-color: #b8f0d6;
@@ -199,7 +222,7 @@ cursor: pointer;
 
 .card2 i {
   background-color: #dbebe4;
-  padding: 15px 17px;
+  padding: 15px;
   border-radius: 50%;
 }
 
@@ -209,7 +232,6 @@ cursor: pointer;
 }
 
 .card3 {
-
   border-color: #e9d6a6;
   color: #e2c26f;
 }
@@ -228,9 +250,7 @@ cursor: pointer;
 
 
 .login_container {
-
-
-  margin: auto;
+  margin: 150px auto; 
   background: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -297,10 +317,8 @@ cursor: pointer;
   cursor: pointer;
 }
 
-
 .cadastro_container {
-
- margin: auto;
+  margin: 150px auto;
   background: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -312,8 +330,6 @@ cursor: pointer;
 .cadastro_container h2 {
   text-align: center;
 }
-
-
 
 .cta {
   background: #c62828;
@@ -333,13 +349,11 @@ cursor: pointer;
 
 .cta button {
   background: #2e7d32;
-  
   border: none;
   padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
 }
-
 
 .cta button:hover {
   scale: 1.01;
