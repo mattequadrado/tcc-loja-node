@@ -28,24 +28,35 @@ text-decoration: none;
 
 header {
   display: flex;
-  justify-content: space-between;
-  padding: 15px 15px;
-  
-
-
-  position: sticky;
-  top: 0;
-  background-color: rgb(240, 229, 231);
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  align-items: center;
+  padding: 15px;
+  background: #630000;
 }
 
-.logotipo {
-  font-size: 35px;
-  font-weight: bold;
-  color: rgb(228, 45, 45);
-  font-family: 'Playfair Display', serif;
+.logotipo{
+  flex: 1;
+}
 
+.logotipo img {
+  max-width: 170px;
+  height: auto;
+  display: block;
+}
+
+.nav-p{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-s{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-links a{
+  color: white;
 }
 
 .nav-links {
@@ -69,10 +80,9 @@ margin-right: 20px;
 
 
 .icon:hover {
-background-color: #fff;
-transition: 0.2s;
-cursor: pointer;
-
+  background-color: #c39738;
+  transition: 0.2s;
+  cursor: pointer;
 }
 
 @media (max-width:800px) {
@@ -85,16 +95,10 @@ cursor: pointer;
 
 }
 
-
-
-
-
-
 .conteudo_principal {
   text-align: center;
   padding: 70px 20px;
-  background-color: rgb(233, 218, 220);
-  
+  background-color: #edebdd;
 }
 
 .conteudo_principal h1 {
@@ -128,29 +132,32 @@ cursor: pointer;
 .principal {
   border: none;
   background-color: #c0392b;
- 
 }
 .principal a {
   color: white;
 }
 
 .secundario {
-  background: white;
-  border: 1px solid #ccc;
+  background-color: #c0392b;
+  border: none;
+}
+
+.secundario a{
+  color: white;
 }
 
 .principal:hover {
   background-color: #d8584a;
 }
 
-.secundario:hover {
-  scale: 1.02;
+.secundario:hover{
+  background-color: #d8584a;
 }
 
 .secao {
   text-align: center;
   padding: 50px 20px;
- 
+  background-color: white;
 }
 
 .secao h2 {
@@ -166,7 +173,7 @@ cursor: pointer;
 }
 
 .card {
-  background: #fff;
+  background: white;
   padding: 25px;
   border-radius: 12px;
   width: 370px;
@@ -235,17 +242,13 @@ cursor: pointer;
   border-radius: 50%;
 }
 
-
-
 .card3:hover {
   border-color: #dbae3a;
 }
 
 
 .login_container {
-
-
-  margin:  80px auto;
+  margin: 150px auto; 
   background: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -313,8 +316,7 @@ cursor: pointer;
 
 
 .cadastro_container {
-
- margin: 80px auto;
+  margin: 150px auto;
   background: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -326,8 +328,6 @@ cursor: pointer;
 .cadastro_container h2 {
   text-align: center;
 }
-
-
 
 .cta {
   background: #c62828;
@@ -347,13 +347,11 @@ cursor: pointer;
 
 .cta button {
   background: #2e7d32;
-  
   border: none;
   padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
-}
-
+}          
 
 .cta button:hover {
   scale: 1.01;
