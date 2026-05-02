@@ -1,4 +1,5 @@
 const db = require('../db');
+const { enviarConfirmacaoPedido } = require('../mailer');
 
 exports.criarPedido = (req, res) => {
   const { itens } = req.body;
@@ -56,7 +57,7 @@ exports.criarPedido = (req, res) => {
             }
 
             const precoReal = Number(result[0].preco);
-            const nomeProd = result[0].nome_prod; 
+            const nomeProd = result[0].nome_prod;
 
             connection.query(sqlEstoque, [qtd, item.id, qtd], (err, resultEstoque) => {
               if (falhou) return;
@@ -80,7 +81,7 @@ exports.criarPedido = (req, res) => {
                   });
                 }
 
-                itensResolvidos.push({ preco: precoReal, qtd });
+                itensResolvidos.push({ preco: precoReal, qtd, nomeProd });
                 pendente--;
 
                 if (pendente === 0) {
@@ -99,6 +100,7 @@ exports.criarPedido = (req, res) => {
                         });
                       }
 
+                     
                       connection.commit((err) => {
                         if (err) {
                           return connection.rollback(() => {
@@ -108,6 +110,24 @@ exports.criarPedido = (req, res) => {
                         }
 
                         connection.release();
+
+                        const usuario = req.session.usuario;
+
+                        const pedidoInfo = {
+                          id_pedido: idPedido,
+                          total,
+                          status: 'pendente',
+                          itens: itensResolvidos.map(i => ({
+                            nome_prod: i.nomeProd,
+                            quantidade: i.qtd,
+                            preco: i.preco
+                          }))
+                        };
+
+                      console.log('Usuario na sessão:', req.session.usuario);
+                        enviarConfirmacaoPedido(usuario.email, usuario.nome, pedidoInfo)
+                          .catch(err => console.error('Erro ao enviar email:', err));
+
                         res.status(201).json({
                           message: 'Pedido criado com sucesso!',
                           pedido_id: idPedido,
@@ -125,6 +145,7 @@ exports.criarPedido = (req, res) => {
     });
   });
 };
+
 
 exports.meusPedidos = (req, res) => {
   const idUsuario = req.session.usuario.id;
@@ -151,7 +172,6 @@ exports.meusPedidos = (req, res) => {
       return res.status(500).json({ error: 'Erro ao buscar pedidos' });
     }
 
-    // Agrupa itens por pedido
     const pedidos = {};
     result.forEach(row => {
       if (!pedidos[row.id_pedido]) {

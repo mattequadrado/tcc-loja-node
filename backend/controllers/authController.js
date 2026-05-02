@@ -71,6 +71,7 @@ const login = (req, res) => {
       req.session.usuario = {
         id: user.id,
         nome: user.nome,
+        email: user.email, 
         tipo: user.tipo_email
       };
 

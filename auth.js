@@ -9,11 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return res.json();
     })
     .then(data => {
-      userArea.innerHTML = `
-        <a href="pedidos.html" style="font-size:14px; color:#333; margin-right:8px;">Meus Pedidos</a>
-        <span>Olá, ${data.usuario.nome}</span>
-        <button class="btn-logout" onclick="logout()">Sair</button>
-      `;
+ userArea.innerHTML = `
+  <a href="pedidos.html" class="icon" title="Meus Pedidos"><i class="bi bi-bag"></i></a>
+  <span>Olá, ${data.usuario.nome}</span>
+  <button class="btn-logout" onclick="logout()">Sair</button>
+`;
     })
     .catch(() => {
       userArea.innerHTML = `
@@ -31,3 +31,20 @@ function logout() {
       location.reload();
     });
 }
+
+function atualizarBadgeCarrinho() {
+  const badge = document.getElementById("carrinho-count");
+  if (!badge) return;
+
+  const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  const total = carrinho.reduce((acc, item) => acc + item.qtd, 0);
+
+  if (total > 0) {
+    badge.style.display = "flex";
+    badge.innerText = total;
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+atualizarBadgeCarrinho();

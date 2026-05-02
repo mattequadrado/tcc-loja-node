@@ -1,11 +1,12 @@
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 const app = express();
 
-// Serve o frontend
 app.use(express.static(path.join(__dirname, '../')));
 
 app.use(cors({
@@ -15,10 +16,19 @@ app.use(cors({
 
 app.use(express.json());
 
+// ✅ Sessões salvas no banco MySQL
+const sessionStore = new MySQLStore({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'loja'
+});
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'Eu-sou-lindo-demais',
   resave: false,
   saveUninitialized: false,
+  store: sessionStore,  
   cookie: {
     secure: false,
     httpOnly: true,
@@ -40,6 +50,3 @@ app.use('/', adminRoutes);
 app.listen(3000, () => {
   console.log('Rodando em http://localhost:3000');
 });
-
-
-
