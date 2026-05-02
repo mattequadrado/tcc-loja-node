@@ -1,11 +1,9 @@
 const container = document.getElementById("lista-doces");
 
-// carregandoo os produtos
 fetch("http://localhost:3000/produtos")
   .then(res => res.json())
   .then(data => {
 
-    // se tiver vazio
     if (data.length === 0) {
       container.innerHTML = "<p>Nenhum produto disponível</p>";
       return;
@@ -16,13 +14,19 @@ fetch("http://localhost:3000/produtos")
     data.forEach(produto => {
       const div = document.createElement("div");
 
-      div.innerHTML = `
-        <div class="item">
-          <div class="item-info">
-            <span class="nome">${produto.nome_prod}</span>
-            <span class="preco">R$ ${produto.preco}</span>
-          </div>
+      
+      div.classList.add("produto-card");
 
+      div.innerHTML = `
+        <div class="nome-produto">
+          <h3>${produto.nome_prod}</h3>
+        </div>
+
+        <div class="preco">
+          R$ ${produto.preco}
+        </div>
+
+        <div class="produto-botao">
           <button onclick="adicionarCarrinho(${produto.id_prod}, '${produto.nome_prod}', ${produto.preco})">
             Adicionar
           </button>

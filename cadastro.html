@@ -39,24 +39,27 @@
     <form>
       <div class="input-group">
         <label>Nome</label>
-        <input type="text" placeholder="Nome" required>
+        <input id="nome" type="text" placeholder="Nome" required>
       </div>
 
 
       <div class="input-group">
         <label>Email</label>
-        <input type="email" placeholder="Digite seu email" required>
+        <input id="email" type="email" placeholder="Digite seu email" required>
       </div>
       <div class="input-group">
         <label>Senha</label>
-        <input type="password" placeholder="Digite sua senha" required>
+        <input id="senha" type="password" placeholder="Digite sua senha" required>
       </div>
 
-      <button type="submit" class="btn-login">Entrar</button>
+      <button type="button" onclick="cadastrar()" class="btn-login">
+  Cadastrar
+</button>
 
     </form>
   </div>
   </div>
+  <script src="cadastro.js"></script>
 </body>
 
 </html>

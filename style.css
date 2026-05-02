@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+* {
+  box-sizing: border-box;
+}
 body {
+  min-height: 100vh;
   margin: 0px;
   padding: 0px;
   font-family: 'Poppins', sans-serif;
@@ -230,15 +236,14 @@ cursor: pointer;
 .login_container {
 
 
-  margin: auto;
+  margin:  80px auto;
   background: #fff;
   padding: 30px;
   border-radius: 10px;
   width: 300px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  text-align: justify;
+  text-align: center;
 }
-
 .login_container h2 {
   margin-bottom: 20px;
   text-align: center;
@@ -260,7 +265,7 @@ cursor: pointer;
 }
 
 .input-group input {
-  width: 280px;
+ width: 100%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -300,7 +305,7 @@ cursor: pointer;
 
 .cadastro_container {
 
- margin: auto;
+ margin: 80px auto;
   background: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -388,15 +393,31 @@ footer {
   font-size: 13px;
 }
 
-.carrinho {
-  text-align: center;
-  margin: auto;
-   background: #fff;
-  padding: 30px;
+.carrinho-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.lista-carrinho {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item-carrinho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
   border-radius: 10px;
-  width: 300px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  text-align: justify;
+  background: #fff;
+  border: 1px solid #eee;
+
+}
+
+.item-carrinho:hover {
+  border-color: #ddd;
 }
 
 .container {
@@ -426,6 +447,54 @@ footer {
   font-weight: 600;
   margin-bottom: 15px;
 }
+
+.acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acoes button {
+  border: none;
+  background: #eee;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+
+
+    display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acoes button:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+
+.resumo {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resumo button {
+  background: #d62828;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.resumo button:hover {
+  background: #b71c1c;
+}
+
 
 /* PREÇO */
 .preco {

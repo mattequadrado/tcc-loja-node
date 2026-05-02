@@ -1,55 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
- 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet">
 </head>
+
 <body>
 
-     <header>
+  <header>
     <span class="logotipo">Amor Doce</span>
 
     <nav class="nav-p">
-      
+
       <ul class="nav-links">
         <li><a href="index.html">Início</a></li>
         <li><a href="cardapio.html">Cardápio</a></li>
         <li><a href="info.html">Sobre Nós</a> </li>
       </ul>
-      </nav>
+    </nav>
 
 
     <nav class="nav-s">
       <ul class="nav-links">
-    <li><a href="carrinho.html" class="icon"><i class="bi bi-cart"></i></a></li>
-    <li><a href="login.html" class="icon"><i class="bi bi-person"></i></a></li>
-    </ul>
+        <li><a href="carrinho.html" class="icon"><i class="bi bi-cart"></i></a></li>
+        <li><a href="login.html" class="icon"><i class="bi bi-person"></i></a></li>
+      </ul>
     </nav>
   </header>
-    <div class="login_container">
-        <h2>Login</h2>
-        <p>Entre com a sua conta para continuar</p>
-<form>
+  <div class="login_container">
+    <h2>Login</h2>
+    <p>Entre com a sua conta para continuar</p>
+    <form onsubmit="login(); return false;">
       <div class="input-group">
-                <label>Email</label>
-                <input type="email" placeholder="Digite seu email" required>
+        <label>Email</label>
+        <input id="email" type="email" placeholder="Digite seu email" required>
 
-                  <div class="input-group">
-                <label>Senha</label>
-                <input type="password" placeholder="Digite sua senha" required>
-            </div>
+        <div class="input-group">
+          <label>Senha</label>
+          <input id="senha" type="password" placeholder="Digite sua senha" required>
+        </div>
 
-            <button type="submit" class="btn-login">Entrar</button>
+      <button type="submit" class="btn-login">Entrar</button>
 
-            <p>Não tem uma conta? <a href="cadastro.html">Cadastrar</a></p>
-                </form>
-            </div>
-    </div>
+        <p>Não tem uma conta? <a href="cadastro.html">Cadastrar</a></p>
+    </form>
+  </div>
+  </div>
+
+  <script src="login.js"></script>
 </body>
+
 </html>

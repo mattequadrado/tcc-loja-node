@@ -1,4 +1,3 @@
-
 function carregarCarrinho() {
   const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
   const container = document.getElementById("lista-carrinho");
@@ -11,26 +10,32 @@ function carregarCarrinho() {
   carrinho.forEach(item => {
     const div = document.createElement("div");
 
+   
+    div.classList.add("item-carrinho");
+
     const subtotal = item.preco * item.qtd;
     total += subtotal;
 
     div.innerHTML = `
-      <h3>${item.nome}</h3>
-      <p>Preço: R$ ${item.preco}</p>
-      <p>Quantidade: ${item.qtd}</p>
-      <p>Subtotal: R$ ${subtotal}</p>
-      <button onclick="removerItem(${item.id})">Remover</button>
-      <hr>
+      <div class="info">
+        <h3>${item.nome}</h3>
+        <p>R$ ${item.preco}</p>
+      </div>
+
+      <div class="acoes">
+        <span>x${item.qtd}</span>
+        <span>R$ ${subtotal.toFixed(2)}</span>
+        <button onclick="removerItem(${item.id})">Remover</button>
+      </div>
     `;
 
     container.appendChild(div);
   });
 
-  totalEl.innerText = "Total: R$ " + total;
+  totalEl.innerText = "R$ " + total.toFixed(2);
 }
 
 
-//  Remover item
 function removerItem(id) {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
@@ -42,7 +47,7 @@ function removerItem(id) {
 }
 
 
-// Finalizar o pedido
+
 function finalizarPedido() {
   const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
@@ -51,22 +56,36 @@ function finalizarPedido() {
     return;
   }
 
+
+  const itensLimpos = carrinho.map(item => ({
+    id: item.id,
+    qtd: item.qtd
+  }));
+
   fetch("http://localhost:3000/pedido", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ itens: carrinho })
+    body: JSON.stringify({ itens: itensLimpos })
   })
     .then(res => res.json())
     .then(data => {
-      alert("Pedido enviado!");
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+
+      alert("Pedido enviado com sucesso!");
 
       localStorage.removeItem("carrinho");
 
       carregarCarrinho();
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(err);
+      alert("Erro ao enviar pedido");
+    });
 }
 
 
