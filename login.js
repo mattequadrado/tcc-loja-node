@@ -1,8 +1,12 @@
 function login() {
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senha").value.trim();
 
-  fetch("http://localhost:3000/login", {
+  if (!email || !senha) {
+    alert("Preencha email e senha");
+    return;
+  }
+  fetch("/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

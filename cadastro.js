@@ -1,18 +1,23 @@
 function cadastrar() {
-  const nome = document.getElementById("nome").value;
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
+  const nome = document.getElementById("nome").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senha").value.trim();
 
-  fetch("http://localhost:3000/register", {
+  if (!nome || !email || !senha) {
+    alert("Preencha todos os campos");
+    return;
+  }
+
+  if (senha.length < 6) {
+    alert("A senha deve ter pelo menos 6 caracteres");
+    return;
+  }
+
+  fetch("/register", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      nome: nome,
-      email: email,
-      senha: senha
-    })
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ nome, email, senha })
   })
     .then(res => res.json())
     .then(data => {
@@ -24,5 +29,7 @@ function cadastrar() {
       alert("Cadastrado com sucesso!");
       window.location.href = "login.html";
     })
-    .catch(err => console.log(err));
+    .catch(() => {
+      alert("Erro ao conectar com o servidor. Tente novamente.");
+    });
 }

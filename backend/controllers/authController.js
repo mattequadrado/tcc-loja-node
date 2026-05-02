@@ -12,14 +12,20 @@ const register = (req, res) => {
   }
 
   db.query('SELECT id FROM usuario WHERE email = ?', [email], (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+  console.error(err);
+  return res.status(500).json({ error: 'Erro interno no servidor' });
+}
 
     if (result.length > 0) {
       return res.status(400).json({ error: 'Email já existe' });
     }
 
     bcrypt.hash(senha, SALT_ROUNDS, (err, hash) => {
-      if (err) return res.status(500).json(err);
+    if (err) {
+  console.error(err);
+  return res.status(500).json({ error: 'Erro interno no servidor' });
+}
 
       const sql = `
         INSERT INTO usuario (nome, email, senha, telefone, tipo_email)
@@ -27,7 +33,10 @@ const register = (req, res) => {
       `;
 
       db.query(sql, [nome, email, hash, telefone || null, 'cliente'], (err, result) => {
-        if (err) return res.status(500).json(err);
+       if (err) {
+  console.error(err);
+  return res.status(500).json({ error: 'Erro interno no servidor' });
+}
 
         res.json({ message: 'Usuário criado com sucesso' });
       });
@@ -50,7 +59,10 @@ const login = (req, res) => {
     const user = result[0];
 
     bcrypt.compare(senha, user.senha, (err, match) => {
-      if (err) return res.status(500).json(err);
+      if (err) {
+  console.error(err);
+  return res.status(500).json({ error: 'Erro interno no servidor' });
+}
 
       if (!match) {
         return res.status(401).json({ error: 'Email ou senha inválidos' });
@@ -70,6 +82,15 @@ const login = (req, res) => {
   });
 };
 
+// ME
+const me = (req, res) => {
+  if (!req.session.usuario) {
+    return res.status(401).json({ error: 'Não autenticado' });
+  }
+  res.json({ usuario: req.session.usuario });
+};
+
+
 
 // LOGOUT
 const logout = (req, res) => {
@@ -78,4 +99,4 @@ const logout = (req, res) => {
   });
 };
 
-module.exports = { register, login, logout };
+module.exports = { register, login, logout, me };

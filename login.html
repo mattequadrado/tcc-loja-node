@@ -29,12 +29,15 @@
     </nav>
 
 
-    <nav class="nav-s">
-      <ul class="nav-links">
-        <li><a href="carrinho.html" class="icon"><i class="bi bi-cart"></i></a></li>
-        <li><a href="login.html" class="icon"><i class="bi bi-person"></i></a></li>
-      </ul>
-    </nav>
+ <nav class="nav-s">
+  <ul class="nav-links">
+    <li><a href="carrinho.html" class="icon"><i class="bi bi-cart"></i></a></li>
+    <li id="user-area">
+      <a href="login.html" class="icon"><i class="bi bi-person"></i></a>
+    </li>
+  </ul>
+</nav>
+
   </header>
   <div class="login_container">
     <h2>Login</h2>
@@ -43,6 +46,7 @@
       <div class="input-group">
         <label>Email</label>
         <input id="email" type="email" placeholder="Digite seu email" required>
+        </div>
 
         <div class="input-group">
           <label>Senha</label>
@@ -52,11 +56,13 @@
       <button type="submit" class="btn-login">Entrar</button>
 
         <p>Não tem uma conta? <a href="cadastro.html">Cadastrar</a></p>
-    </form>
-  </div>
-  </div>
+  
 
+   </form>
+</div>
+ 
   <script src="login.js"></script>
+  <script src="auth.js"></script>
 </body>
 
 </html>

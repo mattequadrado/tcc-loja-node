@@ -7,115 +7,169 @@ exports.criarPedido = (req, res) => {
     return res.status(400).json({ error: 'Carrinho vazio' });
   }
 
-
-  let total = 0;
-
-  db.beginTransaction((err) => {
+  db.getConnection((err, connection) => {
     if (err) {
       console.error(err);
-      return res.status(500).json({ error: 'Erro ao iniciar transação' });
+      return res.status(500).json({ error: 'Erro ao conectar ao banco' });
     }
 
-
-    const sqlPedido = `INSERT INTO pedido (total, status)VALUES (0, 'pendente')`;
-
-    db.query(sqlPedido, (err, result) => {
+    connection.beginTransaction((err) => {
       if (err) {
-        return db.rollback(() => {
-          console.error(err);
-          res.status(500).json({ error: 'Erro ao criar pedido' });
-        });
+        connection.release();
+        return res.status(500).json({ error: 'Erro ao iniciar transação' });
       }
 
-      const idPedido = result.insertId;
+      const sqlPedido = `INSERT INTO pedido (id_usuario, total, status) VALUES (?, 0, 'pendente')`;
+      const idUsuario = req.session.usuario.id;
 
-      const sqlBuscarPreco = `SELECT preco FROM produto WHERE id_prod = ?`;
+      connection.query(sqlPedido, [idUsuario], (err, result) => {
+        if (err) {
+          return connection.rollback(() => {
+            connection.release();
+            res.status(500).json({ error: 'Erro ao criar pedido' });
+          });
+        }
 
-      const sqlItem = `INSERT INTO itens_pedido (id_pedido, id_prod, quantidade, preco) VALUES (?, ?, ?, ?)`;
+        const idPedido = result.insertId;
+        const sqlBuscarPreco = `SELECT preco, nome_prod FROM produto WHERE id_prod = ?`;
+        const sqlEstoque = `UPDATE produto SET estoque = estoque - ? WHERE id_prod = ? AND estoque >= ?`;
+        const sqlItem = `INSERT INTO itens_pedido (id_pedido, id_prod, quantidade, preco) VALUES (?, ?, ?, ?)`;
 
-      const sqlEstoque = `UPDATE produtoSET estoque = estoque - ?WHERE id_prod = ? AND estoque >= ?
-      `;
+        const itensResolvidos = [];
+        let pendente = itens.length;
+        let falhou = false;
 
-      let pendente = itens.length;
-      let falhou = false;
-
-      itens.forEach((item) => {
-        if (falhou) return;
-
-        const qtd = Number(item.qtd);
-
-        // 🔹 1. buscar preço real
-        db.query(sqlBuscarPreco, [item.id], (err, result) => {
+        itens.forEach((item) => {
           if (falhou) return;
 
-          if (err || result.length === 0) {
-            falhou = true;
-            return db.rollback(() => {
-              res.status(400).json({ error: 'Produto não encontrado' });
-            });
-          }
+          const qtd = Number(item.qtd);
 
-          const precoReal = Number(result[0].preco);
-
-          // 🔹 2. atualizar estoque
-          db.query(sqlEstoque, [qtd, item.id, qtd], (err, resultEstoque) => {
+          connection.query(sqlBuscarPreco, [item.id], (err, result) => {
             if (falhou) return;
 
-            if (err || resultEstoque.affectedRows === 0) {
+            if (err || result.length === 0) {
               falhou = true;
-              return db.rollback(() => {
-                res.status(400).json({ error: 'Estoque insuficiente' });
+              return connection.rollback(() => {
+                connection.release();
+                res.status(400).json({ error: 'Produto não encontrado' });
               });
             }
 
-            // 🔹 3. salvar item
-            db.query(sqlItem, [idPedido, item.id, qtd, precoReal], (err) => {
+            const precoReal = Number(result[0].preco);
+            const nomeProd = result[0].nome_prod; 
+
+            connection.query(sqlEstoque, [qtd, item.id, qtd], (err, resultEstoque) => {
               if (falhou) return;
 
-              if (err) {
+              if (err || resultEstoque.affectedRows === 0) {
                 falhou = true;
-                return db.rollback(() => {
-                  console.error(err);
-                  res.status(500).json({ error: 'Erro ao salvar item' });
+                return connection.rollback(() => {
+                  connection.release();
+                  res.status(400).json({ error: `Estoque insuficiente para o seguinte produto: ${nomeProd}` });
                 });
               }
 
-              // 🔹 4. somar total
-              total += precoReal * qtd;
+              connection.query(sqlItem, [idPedido, item.id, qtd, precoReal], (err) => {
+                if (falhou) return;
 
-              pendente--;
+                if (err) {
+                  falhou = true;
+                  return connection.rollback(() => {
+                    connection.release();
+                    res.status(500).json({ error: 'Erro ao salvar item' });
+                  });
+                }
 
-              // 🔹 5. finaliza quando acabar
-              if (pendente === 0) {
-                db.query(
-                  'UPDATE pedido SET total = ? WHERE id_pedido = ?',
-                  [total, idPedido],
-                  (err) => {
-                    if (err) {
-                      return db.rollback(() => {
-                        res.status(500).json({ error: 'Erro ao atualizar total' });
-                      });
-                    }
+                itensResolvidos.push({ preco: precoReal, qtd });
+                pendente--;
 
-                    db.commit((err) => {
+                if (pendente === 0) {
+                  const total = itensResolvidos.reduce(
+                    (acc, i) => acc + i.preco * i.qtd, 0
+                  );
+
+                  connection.query(
+                    'UPDATE pedido SET total = ? WHERE id_pedido = ?',
+                    [total, idPedido],
+                    (err) => {
                       if (err) {
-                        return db.rollback(() => {
-                          res.status(500).json({ error: 'Erro ao finalizar pedido' });
+                        return connection.rollback(() => {
+                          connection.release();
+                          res.status(500).json({ error: 'Erro ao atualizar total' });
                         });
                       }
 
-                      res.status(201).json({
-                        message: 'Pedido criado com sucesso!',
-                        pedido_id: idPedido
+                      connection.commit((err) => {
+                        if (err) {
+                          return connection.rollback(() => {
+                            connection.release();
+                            res.status(500).json({ error: 'Erro ao finalizar pedido' });
+                          });
+                        }
+
+                        connection.release();
+                        res.status(201).json({
+                          message: 'Pedido criado com sucesso!',
+                          pedido_id: idPedido,
+                          total
+                        });
                       });
-                    });
-                  }
-                );
-              }
+                    }
+                  );
+                }
+              });
             });
           });
         });
       });
     });
+  });
+};
+
+exports.meusPedidos = (req, res) => {
+  const idUsuario = req.session.usuario.id;
+
+  const sql = `
+    SELECT 
+      p.id_pedido,
+      p.total,
+      p.data,
+      p.status,
+      ip.quantidade,
+      ip.preco,
+      pr.nome_prod
+    FROM pedido p
+    JOIN itens_pedido ip ON p.id_pedido = ip.id_pedido
+    JOIN produto pr ON ip.id_prod = pr.id_prod
+    WHERE p.id_usuario = ?
+    ORDER BY p.data DESC
+  `;
+
+  db.query(sql, [idUsuario], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erro ao buscar pedidos' });
+    }
+
+    // Agrupa itens por pedido
+    const pedidos = {};
+    result.forEach(row => {
+      if (!pedidos[row.id_pedido]) {
+        pedidos[row.id_pedido] = {
+          id_pedido: row.id_pedido,
+          total: row.total,
+          data: row.data,
+          status: row.status,
+          itens: []
+        };
+      }
+      pedidos[row.id_pedido].itens.push({
+        nome_prod: row.nome_prod,
+        quantidade: row.quantidade,
+        preco: row.preco
+      });
+    });
+
+    res.json(Object.values(pedidos));
   });
 };

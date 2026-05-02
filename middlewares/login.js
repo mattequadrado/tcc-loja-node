@@ -2,7 +2,7 @@ function login() {
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
 
-  fetch("http://localhost:3000/login", {
+  fetch("/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
