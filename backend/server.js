@@ -1,9 +1,10 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 
@@ -16,7 +17,23 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ Sessões salvas no banco MySQL
+// Rate limiting
+const limiterGeral = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { error: 'Muitas requisições, tente novamente mais tarde.' }
+});
+
+const limiterLogin = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { error: 'Muitas tentativas, tente novamente em 15 minutos.' }
+});
+
+app.use(limiterGeral);
+app.use('/login', limiterLogin);
+app.use('/register', limiterLogin);
+
 const sessionStore = new MySQLStore({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
@@ -28,7 +45,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'Eu-sou-lindo-demais',
   resave: false,
   saveUninitialized: false,
-  store: sessionStore,  
+  store: sessionStore,
   cookie: {
     secure: false,
     httpOnly: true,

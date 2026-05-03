@@ -5,5 +5,8 @@ const { apenasAdmin } = require('../../middlewares/authMiddleware');
 
 router.get('/admin/pedidos', apenasAdmin, controller.getTodosPedidos);
 router.put('/admin/pedidos/:id/status', apenasAdmin, controller.atualizarStatus);
+router.get('/admin/produtos', apenasAdmin, controller.getTodosProdutosAdmin);
+router.get('/admin/produtos/:id', apenasAdmin, controller.getProdutoById);
+router.put('/admin/produtos/:id/ativo', apenasAdmin, controller.toggleAtivoProduto); // ✅ nova
 
 module.exports = router;

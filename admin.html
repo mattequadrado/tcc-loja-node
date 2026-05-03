@@ -13,7 +13,6 @@
     <span class="logotipo">Amor Doce</span>
     <nav class="nav-p">
       <ul class="nav-links">
-        
         <li><a href="admin.html">Admin</a></li>
       </ul>
     </nav>
@@ -26,9 +25,99 @@
     </nav>
   </header>
 
-  <div class="pedidos-container">
+  <div class="admin-container">
     <h1>Painel Administrativo</h1>
-    <div id="lista-pedidos"></div>
+
+    <!-- Abas principais -->
+    <div class="admin-tabs">
+      <button class="tab-btn active" onclick="mostrarAba('pedidos', this)">
+        <i class="bi bi-receipt"></i> Pedidos
+      </button>
+      <button class="tab-btn" onclick="mostrarAba('produtos', this)">
+        <i class="bi bi-box-seam"></i> Produtos
+      </button>
+    </div>
+
+    <!-- Aba Pedidos -->
+    <div id="aba-pedidos" class="aba">
+
+      <!-- Sub abas de status -->
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" onclick="filtrarPedidos('pendente', this)">
+          <i class="bi bi-clock"></i> Pendentes
+        </button>
+        <button class="sub-tab-btn" onclick="filtrarPedidos('confirmado', this)">
+          <i class="bi bi-check-circle"></i> Confirmados
+        </button>
+        <button class="sub-tab-btn" onclick="filtrarPedidos('entregue', this)">
+          <i class="bi bi-bag-check"></i> Entregue
+        </button>
+      </div>
+
+      <div id="lista-pedidos"></div>
+    </div>
+
+    <!-- Aba Produtos -->
+    <div id="aba-produtos" class="aba" style="display:none;">
+
+      <div class="produto-form">
+        <h2>Novo Produto</h2>
+        <div class="input-group">
+          <label>Nome</label>
+          <input type="text" id="prod-nome" placeholder="Nome do produto">
+        </div>
+        <div class="input-group">
+          <label>Descrição</label>
+          <input type="text" id="prod-descricao" placeholder="Descrição">
+        </div>
+        <div class="input-group">
+          <label>Preço</label>
+          <input type="number" id="prod-preco" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div class="input-group">
+          <label>Estoque</label>
+          <input type="number" id="prod-estoque" placeholder="0" min="0">
+        </div>
+        <div class="form-acoes">
+          <button onclick="criarProduto()" class="btn-salvar">
+            <i class="bi bi-plus-lg"></i> Criar Produto
+          </button>
+        </div>
+      </div>
+
+      <div id="modal-editar" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; justify-content:center; align-items:center;">
+        <div style="background:#fff; padding:30px; border-radius:12px; width:400px;">
+          <h2 style="margin-bottom:20px;">Editar Produto</h2>
+          <input type="hidden" id="edit-id">
+          <div class="input-group">
+            <label>Nome</label>
+            <input type="text" id="edit-nome">
+          </div>
+          <div class="input-group">
+            <label>Descrição</label>
+            <input type="text" id="edit-descricao">
+          </div>
+          <div class="input-group">
+            <label>Preço</label>
+            <input type="number" id="edit-preco" step="0.01" min="0">
+          </div>
+          <div class="input-group">
+            <label>Estoque</label>
+            <input type="number" id="edit-estoque" min="0">
+          </div>
+          <div class="form-acoes">
+            <button onclick="salvarEdicao()" class="btn-salvar">
+              <i class="bi bi-check-lg"></i> Salvar
+            </button>
+            <button onclick="fecharModal()" class="btn-cancelar">
+              <i class="bi bi-x-lg"></i> Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="lista-produtos-admin"></div>
+    </div>
   </div>
 
   <script src="admin.js"></script>
