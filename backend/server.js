@@ -35,10 +35,19 @@ app.use('/login', limiterLogin);
 app.use('/register', limiterLogin);
 
 const sessionStore = new MySQLStore({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'loja'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
+
+
+  ssl: {
+    rejectUnauthorized: false
+  },
+
+
+  connectTimeout: 10000
 });
 
 app.use(session({

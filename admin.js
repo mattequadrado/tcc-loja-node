@@ -50,10 +50,8 @@ function carregarPedidos() {
 
 function filtrarPedidos(status, btn) {
   filtroAtual = status;
-
   document.querySelectorAll('.sub-tab-btn').forEach(el => el.classList.remove('active'));
   btn.classList.add('active');
-
   renderizarPedidos(status);
 }
 
@@ -127,7 +125,13 @@ function atualizarStatus(id) {
         alert(data.error);
         return;
       }
-      carregarPedidos();
+
+      fetch("/admin/pedidos", { credentials: "include" })
+        .then(res => res.json())
+        .then(data => {
+          todosPedidos = data;
+          renderizarPedidos(filtroAtual);
+        });
     })
     .catch(() => alert("Erro ao atualizar status"));
 }
