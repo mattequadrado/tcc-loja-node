@@ -89,7 +89,7 @@ async function finalizarPedido() {
     return;
   }
 
-  const sessao = await fetch("/me", {
+  const sessao = await api("/me", {
     credentials: "include"
   });
 
@@ -104,7 +104,7 @@ async function finalizarPedido() {
     qtd: item.qtd
   }));
 
-  fetch("/pedido", {
+  api("/pedido", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

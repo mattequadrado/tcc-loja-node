@@ -3,7 +3,7 @@ const pesquisa = document.getElementById("pesquisa");
 
 let todosProdutos = [];
 
-fetch("/produtos")
+api("/produtos")
   .then(res => res.json())
   .then(data => {
     if (data.length === 0) {
@@ -50,7 +50,7 @@ function renderizarProdutos(produtos) {
 }
 
 
-// ✅ Busca funcionando
+
 pesquisa.addEventListener("input", () => {
   const termo = pesquisa.value.toLowerCase().trim();
   const filtrados = todosProdutos.filter(p =>

@@ -1,7 +1,7 @@
 let todosPedidos = [];
 let filtroAtual = 'pendente';
 
-fetch("/me", { credentials: "include" })
+api("/me", { credentials: "include" })
   .then(res => {
     if (!res.ok) {
       window.location.href = "login.html";
@@ -33,7 +33,7 @@ function mostrarAba(aba, btn) {
 
 
 function carregarDashboard() {
-  fetch("/admin/dashboard", { credentials: "include" })
+  api("/admin/dashboard", { credentials: "include" })
     .then(res => res.json())
     .then(data => {
       document.getElementById("dash-total-pedidos").innerText = data.total_pedidos;
@@ -67,7 +67,7 @@ function carregarDashboard() {
 
 
 function carregarPedidos() {
-  fetch("/admin/pedidos", { credentials: "include" })
+  api("/admin/pedidos", { credentials: "include" })
     .then(res => res.json())
     .then(data => {
       todosPedidos = data;
@@ -144,7 +144,7 @@ function renderizarPedidos(status) {
 function atualizarStatus(id) {
   const status = document.getElementById(`status-${id}`).value;
 
-  fetch(`/admin/pedidos/${id}/status`, {
+  api(`/admin/pedidos/${id}/status`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -157,7 +157,7 @@ function atualizarStatus(id) {
         return;
       }
 
-      fetch("/admin/pedidos", { credentials: "include" })
+      api("/admin/pedidos", { credentials: "include" })
         .then(res => res.json())
         .then(data => {
           todosPedidos = data;
@@ -169,7 +169,7 @@ function atualizarStatus(id) {
 
 
 function carregarProdutosAdmin() {
-  fetch("/admin/produtos", { credentials: "include" })
+  api("/admin/produtos", { credentials: "include" })
     .then(res => res.json())
     .then(data => {
       const lista = document.getElementById("lista-produtos-admin");
@@ -212,7 +212,7 @@ function toggleAtivo(id, ativoAtual) {
 
   if (!confirm(msg)) return;
 
-  fetch(`/admin/produtos/${id}/ativo`, {
+  api(`/admin/produtos/${id}/ativo`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -229,7 +229,7 @@ function toggleAtivo(id, ativoAtual) {
 }
 
 function editarProduto(id) {
-  fetch(`/admin/produtos/${id}`, { credentials: "include" })
+  api(`/admin/produtos/${id}`, { credentials: "include" })
     .then(res => res.json())
     .then(produto => {
       document.getElementById("edit-id").value = produto.id_prod;
@@ -258,7 +258,7 @@ function salvarEdicao() {
     return;
   }
 
-  fetch(`/produtos/${id}`, {
+  api(`/produtos/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -287,7 +287,7 @@ function criarProduto() {
     return;
   }
 
-  fetch("/produtos", {
+  api("/produtos", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '../')));
 app.use(cors({
-  origin: ['http://localhost:5500', 'http://127.0.0.1:5500'],
+  origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'https://tcc-loja-node.vercel.app'],
   credentials: true
 }));
 app.use(express.json());
