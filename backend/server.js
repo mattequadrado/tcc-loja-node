@@ -8,7 +8,8 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 
 
-app.use(express.static(path.join(__dirname, '../')));
+app.set('trust proxy', 1);
+app.use(express.static(path.join(__dirname, '..')));
 
 
 app.use(cors({
@@ -74,6 +75,11 @@ app.use('/', authRoutes);
 app.use('/produtos', produtoRoutes);
 app.use('/pedido', pedidoRoutes);
 app.use('/', adminRoutes);
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
 
 app.listen(3000, () => {
   console.log('Rodando em http://localhost:3000');
