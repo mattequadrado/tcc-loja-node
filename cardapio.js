@@ -3,7 +3,7 @@ const pesquisa = document.getElementById("pesquisa");
 
 let todosProdutos = [];
 
-api("/produtos")
+fetch(`${API_URL}/produtos`)
   .then(res => res.json())
   .then(data => {
     if (data.length === 0) {

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const userArea = document.getElementById("user-area");
 
-  api("/me", {
+  fetch(`${API_URL}/me`, {
     credentials: "include"
   })
     .then(res => {
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function logout() {
-  api("/logout", {
+  fetch(`${API_URL}"/logout`, {
     method: "POST",
     credentials: "include"
   })

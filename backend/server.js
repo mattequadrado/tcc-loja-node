@@ -9,10 +9,14 @@ const app = express();
 
 
 app.use(express.static(path.join(__dirname, '../')));
+
+
 app.use(cors({
-  origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'https://tcc-loja-node.vercel.app'],
+  origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'https://tcc-loja-node.vercel.app', 'http://localhost:3000'],
   credentials: true
 }));
+
+
 app.use(express.json());
 
 
@@ -54,10 +58,10 @@ app.use(session({
   saveUninitialized: false,
   store: sessionStore,
   cookie: {
-    secure: false,
+    secure: true,
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 8,
-    sameSite: 'lax'
+    sameSite: 'none'
   }
 }));
 

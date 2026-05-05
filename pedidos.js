@@ -1,6 +1,6 @@
 const container = document.getElementById("lista-pedidos");
 
-api("/pedido/meus-pedidos", {
+fetch(`${API_URL}/pedido/meus-pedidos`, {
   credentials: "include"
 })
   .then(res => {

@@ -6,7 +6,7 @@ function login() {
     alert("Preencha email e senha");
     return;
   }
-  api("/login", {
+ fetch(`${API_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

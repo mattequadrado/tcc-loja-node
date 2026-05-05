@@ -13,7 +13,7 @@ function cadastrar() {
     return;
   }
 
-  api("/register", {
+  fetch(`${API_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
