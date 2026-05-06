@@ -11,6 +11,10 @@ app.set('trust proxy', 1);
 
 app.use(express.static(path.join(__dirname, '..')));
 console.log('Servindo estáticos de:', path.join(__dirname, '..'));
+console.log('__dirname:', __dirname);
+console.log('Servindo estáticos de:', path.join(__dirname, '..'));
+const fs = require('fs');
+console.log('Arquivos na raiz:', fs.readdirSync(path.join(__dirname, '..')));
 
 app.use(cors({
   origin: [
