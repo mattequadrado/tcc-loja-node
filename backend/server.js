@@ -77,7 +77,7 @@ app.use('/pedido', pedidoRoutes);
 app.use('/', adminRoutes);
 
 
-app.get('*', (req, res) => {
+app.get('/{*path}', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
