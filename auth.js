@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function logout() {
-  fetch(`${API_URL}"/logout`, {
+  fetch(`${API_URL}/logout`, {
     method: "POST",
     credentials: "include"
   })
