@@ -1,44 +1,65 @@
 const container = document.getElementById("lista-doces");
+const pesquisa = document.getElementById("pesquisa");
 
-// carregandoo os produtos
-fetch("http://localhost:3000/produtos")
+let todosProdutos = [];
+
+fetch(`${API_URL}/produtos`)
   .then(res => res.json())
   .then(data => {
-
-    // se tiver vazio
     if (data.length === 0) {
       container.innerHTML = "<p>Nenhum produto disponível</p>";
       return;
     }
 
-    container.innerHTML = "";
-
-    data.forEach(produto => {
-      const div = document.createElement("div");
-
-      div.innerHTML = `
-        <div class="item">
-          <div class="item-info">
-            <span class="nome">${produto.nome_prod}</span>
-            <span class="preco">R$ ${produto.preco}</span>
-          </div>
-
-          <button onclick="adicionarCarrinho(${produto.id_prod}, '${produto.nome_prod}', ${produto.preco})">
-            Adicionar
-          </button>
-        </div>
-      `;
-
-      container.appendChild(div);
-    });
+    todosProdutos = data;
+    renderizarProdutos(data);
   })
   .catch(err => {
-    console.log(err);
+    console.error(err);
     container.innerHTML = "<p>Erro ao carregar produtos</p>";
   });
 
 
-// carrito
+function renderizarProdutos(produtos) {
+  container.innerHTML = "";
+
+  if (produtos.length === 0) {
+    container.innerHTML = "<p style='text-align:center; color:#999;'>Nenhum produto encontrado</p>";
+    return;
+  }
+
+  produtos.forEach(produto => {
+    const div = document.createElement("div");
+    div.classList.add("produto-card");
+
+    div.innerHTML = `
+      <div class="nome-produto">
+        <h3>${produto.nome_prod}</h3>
+        <p class="descricao-produto">${produto.descricao || ''}</p>
+      </div>
+      <div class="preco">R$ ${Number(produto.preco).toFixed(2)}</div>
+      <div class="produto-botao">
+        <button onclick="adicionarCarrinho(${produto.id_prod}, '${produto.nome_prod}', ${produto.preco})">
+          Adicionar ao Carrinho
+        </button>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+
+
+pesquisa.addEventListener("input", () => {
+  const termo = pesquisa.value.toLowerCase().trim();
+  const filtrados = todosProdutos.filter(p =>
+    p.nome_prod.toLowerCase().includes(termo)
+  );
+  renderizarProdutos(filtrados);
+});
+
+
 function adicionarCarrinho(id, nome, preco) {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
@@ -47,15 +68,9 @@ function adicionarCarrinho(id, nome, preco) {
   if (itemExistente) {
     itemExistente.qtd += 1;
   } else {
-    carrinho.push({
-      id: id,
-      nome: nome,
-      preco: preco,
-      qtd: 1
-    });
+    carrinho.push({ id, nome, preco, qtd: 1 });
   }
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
-
-  alert("Produto adicionado!");
+  alert(`"${nome}" adicionado ao carrinho!`);
 }

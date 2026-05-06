@@ -14,9 +14,7 @@
 
 <body>
  <header>
-    <span class="logotipo">
-      <img src="img/logo-nome.png" class="logo-nome">
-    </span>
+    <span class="logotipo"> Amor Doce </span>
 
     <nav class="nav-p">
       
@@ -28,12 +26,20 @@
       </nav>
 
 
-    <nav class="nav-s">
-      <ul class="nav-links">
-    <li><a href="carrinho.html" class="icon"><i class="bi bi-cart"></i></a></li>
-    <li><a href="login.html" class="icon"><i class="bi bi-person"></i></a></li>
-    </ul>
-    </nav>
+   <nav class="nav-s">
+  <ul class="nav-links">
+   <li>
+  <a href="carrinho.html" class="icon">
+    <i class="bi bi-cart"></i>
+    <span id="carrinho-count" class="carrinho-badge"></span>
+  </a>
+</li>
+    <li id="user-area">
+      <a href="login.html" class="icon"><i class="bi bi-person"></i></a>
+    </li>
+  </ul>
+</nav>
+
   </header>
 
   <div class="cadastro_container">
@@ -41,24 +47,28 @@
     <form>
       <div class="input-group">
         <label>Nome</label>
-        <input type="text" placeholder="Nome" required>
+        <input id="nome" type="text" placeholder="Nome" required>
       </div>
 
 
       <div class="input-group">
         <label>Email</label>
-        <input type="email" placeholder="Digite seu email" required>
+        <input id="email" type="email" placeholder="Digite seu email" required>
       </div>
       <div class="input-group">
         <label>Senha</label>
-        <input type="password" placeholder="Digite sua senha" required>
+        <input id="senha" type="password" placeholder="Digite sua senha" required>
       </div>
 
-      <button type="submit" class="btn-login">Entrar</button>
+      <button type="button" onclick="cadastrar()" class="btn-login">
+  Cadastrar
+</button>
 
     </form>
   </div>
-  </div>
+<script src="api.js"></script>
+  <script src="cadastro.js"></script>
+  <script src="auth.js"></script>
 </body>
 
 </html>
