@@ -9,9 +9,9 @@ const app = express();
 
 app.set('trust proxy', 1);
 
-app.use(express.static(path.join(__dirname)));
-const fs = require('fs');
-console.log('Arquivos em /app:', fs.readdirSync('/app'));
+app.use(express.static(path.join(__dirname), { index: false }));
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'index.html'));})
 
 
 app.use(cors({
@@ -20,7 +20,7 @@ app.use(cors({
     'http://127.0.0.1:5500',
     'https://tcc-loja-node.vercel.app',
     'http://localhost:3000',
-    'https://tcc-loja-node-production.up.railway.app' // ✅ adicionado
+    'https://tcc-loja-node-production.up.railway.app'
   ],
   credentials: true
 }));
