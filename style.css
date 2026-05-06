@@ -15,8 +15,8 @@
 }
 
 @font-face {
-  font-family: 'Melted';
-  src: url('./fonts/Melted\ Ideas.otf') format(opentype);
+  font-family: 'BebasNeue';
+  src: url('./fonts/BebasNeue-Regular.ttf') format(truetype);
   font-weight: normal;
   font-style: normal;
 }
@@ -25,19 +25,16 @@
   box-sizing: border-box;
 }
 
-
 body {
   min-height: 100vh;
   margin: 0px;
   padding: 0px;
   font-family: 'Poppins', sans-serif;
-  background-color: rgb(240, 229, 231);
+  background-color: white;
   color: #333;
   box-sizing: border-box;
-  
-
-
 }
+
 h1, h2 {
   font-family: 'Playfair Display', serif;
 }
@@ -132,11 +129,16 @@ margin-right: 20px;
   text-align: center;
   padding: 70px 20px;
   background-color: #edebdd;
+  background-image: url('./img/bolomorango.jpg');
+  background-size: cover;        /* faz a imagem cobrir toda a área */
+  background-position: center;   /* centraliza a imagem */
+  background-repeat: no-repeat;  /* evita repetir */
+  height: 400px;
 }
 
 .conteudo_principal h1 {
   font-family: 'Sephora & Hayden';
-  color: #c0392b;
+  color: #000000;
   font-size: 80px;
   margin-bottom: 15px;
 }
@@ -144,7 +146,7 @@ margin-right: 20px;
 .conteudo_principal p {
   max-width: 500px;
   margin: auto;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .buttons {
@@ -190,12 +192,13 @@ margin-right: 20px;
 
 .secao {
   text-align: center;
-  padding: 50px 20px;
+  padding: 100px 5px;
+  padding-bottom: 200px;
   background-color: white;
 }
 
 .secao h2 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'BebasNeue';
   font-size: 35px;
   color: #c0392b;
   margin-bottom: 35px;
@@ -208,6 +211,7 @@ margin-right: 20px;
 .cards {
   display: flex;
   justify-content: center;
+  align-items: stretch;
   gap: 20px;
   flex-wrap: wrap;
 }
@@ -239,10 +243,12 @@ margin-right: 20px;
 }
 
 .card1 {
-  background-color: #a71e1e6f;
+  background-color: #630000;
+  padding: 20px;
 }
+
 .card1 i {
-  background-color: #eea2a2;
+  background-color: #630000;
   padding: 15px 17px;
   border-radius: 50%;
 }
@@ -252,7 +258,7 @@ margin-right: 20px;
 }
 
 .card2 {
-  background-color: #105a2060;
+  background-color: #630000;
 }
 
 .card2:hover{
@@ -266,7 +272,7 @@ margin-right: 20px;
 }
 
 .card3 {
-  background-color: #c7970869;
+  background-color: #630000;
 }
 
 .card3 i {
@@ -292,6 +298,7 @@ margin-right: 20px;
 .login_container h2 {
   margin-bottom: 20px;
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .login_container p {
@@ -360,6 +367,7 @@ margin-right: 20px;
 
 .cadastro_container h2 {
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .cta {
@@ -370,7 +378,8 @@ margin-right: 20px;
 }
 
 .cta h2 {
-  font-size: 22px;
+  font-family: 'Vartigo';
+  font-size: 60px;
   margin-bottom: 10px;
 }
 
@@ -398,7 +407,7 @@ margin-right: 20px;
 footer {
   background: #2f6f4f;
   color: white;
-  padding: 50px 40px 20px;
+  padding: 30px 40px 20px;
 }
 
 .footer-container {
@@ -439,6 +448,10 @@ footer {
   padding: 20px;
 }
 
+.carrinho-container h1{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .lista-carrinho {
   display: flex;
   flex-direction: column;
@@ -467,7 +480,7 @@ footer {
   padding: 40px;
 }
 
-/* CARD */
+
 .produto-card {
   background: #ffffff;
   border-radius: 16px;
@@ -481,7 +494,7 @@ footer {
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* TOPO */
+
 .nome-produto h3 {
   font-size: 23px;
   font-weight: 600;
@@ -536,14 +549,12 @@ footer {
 }
 
 
-/* PREÇO */
 .preco {
   font-size: 15px;
   font-weight: 700;
   color: #d62828;
 }
 
-/* BOTÃO */
 .produto-botao {
   margin-top: 20px;
 }
@@ -565,19 +576,20 @@ footer {
 }
 
 .search-input {
+  background-color: #c0392b;
   display: block;
   margin: 30px auto 10px;
   width: 50%;
   padding: 12px 20px;
-  border-radius: 25px;
+  border-radius: 15px;
   border: 1px solid #ddd;
   font-size: 15px;
   outline: none;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-.search-input:focus {
-  border-color: #c0392b;
+.search-input::placeholder{
+  color: white;
 }
 
 .descricao-produto {
@@ -701,7 +713,6 @@ footer {
   background: #cfe2ff;
   color: #084298;
 }
-
 
 
 .pedido-acoes {
