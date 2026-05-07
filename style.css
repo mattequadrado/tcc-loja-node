@@ -131,7 +131,7 @@ margin-right: 20px;
   text-align: center;
   padding: 70px 20px;
   background-color: #edebdd;
-  background-image: url('./img/bolomorango.jpg');
+  background-image: url('./img/morango.jpg');
   background-size: cover;        /* faz a imagem cobrir toda a área */
   background-position: center;   /* centraliza a imagem */
   background-repeat: no-repeat;  /* evita repetir */
@@ -140,12 +140,18 @@ margin-right: 20px;
 
 .conteudo_principal h1 {
   font-family: 'Sephora & Hayden';
-  color: #000000;
+  color: white;
+  border-radius: 25px;
   font-size: 80px;
   margin-bottom: 15px;
+
 }
 
 .conteudo_principal p {
+  font-weight: bold;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 25px;
   max-width: 500px;
   margin: auto;
   color: rgb(255, 255, 255);
@@ -373,7 +379,7 @@ margin-right: 20px;
 }
 
 .cta {
-  background: #c62828;
+  background-image: linear-gradient(to left, #bd1c32, #d80420, #a71e30);
   color: white;
   text-align: center;
   padding: 70px 20px;
